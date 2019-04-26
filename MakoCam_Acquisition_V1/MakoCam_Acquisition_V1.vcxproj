@@ -40,8 +40,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\jomsa\Google Drive\Vimba_CPP\Source;$(VIMBA_HOME);C:\Users\jomsa\Google Drive\Vimba_CPP\;$(IncludePath)</IncludePath>
-    <SourcePath>C:\Users\jomsa\Google Drive\Vimba_CPP\Source;C:\Users\jomsa\Google Drive\Vimba_CPP\;$(SourcePath)</SourcePath>
+    <IncludePath>C:\Users\jomsa\Google Drive\ProjectsVS\Repos\MakoCam_AcquisitionV1\MakoCam_Acquisition_V1\Source;$(VIMBA_HOME);C:\Users\jomsa\Google Drive\ProjectsVS\Repos\MakoCam_AcquisitionV1\MakoCam_Acquisition_V1;$(IncludePath)</IncludePath>
+    <SourcePath>C:\Users\jomsa\Google Drive\ProjectsVS\Repos\MakoCam_AcquisitionV1\MakoCam_Acquisition_V1\Source;C:\Users\jomsa\Google Drive\ProjectsVS\Repos\MakoCam_AcquisitionV1\MakoCam_Acquisition_V1;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

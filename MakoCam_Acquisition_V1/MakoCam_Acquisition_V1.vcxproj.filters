@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resources\Common">
+      <UniqueIdentifier>{ff9c89d2-1b10-48ee-b68e-ab175e71cffd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -25,30 +28,30 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Vimba_CPP\Source\ApiController.h">
-      <Filter>Source</Filter>
+      <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Vimba_CPP\Source\Bitmap.h">
-      <Filter>Source</Filter>
+      <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Vimba_CPP\Common\ErrorCodeToMessage.h">
-      <Filter>Source</Filter>
+      <Filter>Resources\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\Vimba_CPP\Common\StreamSystemInfo.h">
-      <Filter>Source</Filter>
+      <Filter>Resources\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="MakoCam_Acquisition_V1.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\Vimba_CPP\Source\ApiController.cpp">
-      <Filter>Source</Filter>
+      <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\Vimba_CPP\Source\Bitmap.cpp">
-      <Filter>Source</Filter>
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Header</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
