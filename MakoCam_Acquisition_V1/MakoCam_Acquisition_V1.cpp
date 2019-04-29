@@ -1,15 +1,10 @@
-// vimba_cpp_1.cpp: define el punto de entrada de la aplicación de consola.
-//
+
 
 #include "stdafx.h"
-
-
 #include <iostream>
-
 #include <cstring>
 #include <string>
 #include <sstream>
-
 #include <vector>
 #include <algorithm>
 #include "ApiController.h"
@@ -22,13 +17,14 @@
 using namespace std;
 
 unsigned t0, t1;
+
 //Flags
 std::string  pCameraID_Global;
-bool flag_camera_init = false;
+bool flag_camera_init = false;		//Flag, indica que la cámara puede ser inicializada
 bool flag_camera_connected = false;
 bool flag_cameraID_selected = false;
+bool flag_camera_close = false;
 //bool flag_init_camera_again = false;
-
 
 
 
@@ -43,9 +39,9 @@ public:
 		pCam->GetID(pID);
 		// Next to the camera pointer a reason why the observer 's function was triggered
 		// is passed in. Possible values are:
-		// UpdateTriggerPluggedIn (0), a new camera was discovered
-		// UpdateTriggerPluggedOut (1), a known camera disappeared from the bus
-		// UpdateTriggerOpenStateChanged (3), a known camera was opened or closed
+		// UpdateTriggerPluggedIn			(0), a new camera was discovered
+		// UpdateTriggerPluggedOut			(1), a known camera disappeared from the bus
+		// UpdateTriggerOpenStateChanged	(3), a known camera was opened or closed
 		// by another application
 		if (AVT::VmbAPI::UpdateTriggerPluggedIn == reason)
 		{
@@ -53,8 +49,6 @@ public:
 			if (!flag_cameraID_selected)
 				flag_camera_init = true;
 			
-
-
 		}
 		if (AVT::VmbAPI::UpdateTriggerPluggedOut == reason) {
 
@@ -62,8 +56,10 @@ public:
 
 			if (flag_cameraID_selected) {
 				if (pCameraID_Global == pID) {
-					flag_cameraID_selected = false;
-					flag_camera_connected = false;
+					flag_cameraID_selected	= false;
+					flag_camera_connected	= false;
+					flag_camera_close		= true;
+					
 					
 					cout << "Camera en uso desconectada";
 				}
@@ -74,6 +70,8 @@ public:
 
 	}
 };
+
+
 class EventObserver : public AVT::VmbAPI::IFeatureObserver
 {
 public:
@@ -160,7 +158,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::string linestatus;
 
 
-	bool status_line_2;
+	bool status_line_2= false;
 
 	// Bitmap
 	const char *    pFileName = "SingleImage - Mako.bmp";
@@ -258,19 +256,20 @@ int _tmain(int argc, _TCHAR* argv[])
 
 
 	while (1) {
-		if (flag_camera_connected) {
+		if (flag_camera_connected && !flag_camera_init) {
 
 
 			cout << "Waiting Trigger \n" << endl;
 			// wait until Line2 set 1
-			do {
+			while (flag_camera_connected && !status_line_2)
+			{
 				err = pCamera->GetFeatureByName("LineStatus", Feature);
 				Feature->GetValue(status_line_2);
-				cout << endl << contador << " " << apiController.ErrorCodeToMessage(err);
+				cout << endl << contador << " " << apiController.ErrorCodeToMessage(err) <<endl;
 				contador++;
 				Sleep(100);// temporal, quitarlo
-
-			} while (!status_line_2 && flag_camera_connected);
+				//if (status_line_2) break;
+			} 
 			//wait until Line2 set 0
 			do {
 				err = pCamera->GetFeatureByName("LineStatus", Feature);
@@ -400,23 +399,31 @@ int _tmain(int argc, _TCHAR* argv[])
 
 			//cameras[cam_avalible]->Close();
 		}
-
+		if (flag_camera_close) {
+			pCamera->Close();
+			flag_camera_close = false;
+		}
 		if (flag_camera_init) {
+
 			if (VmbErrorSuccess == apiController.Giveme_Avalible_Cameras(pCamera))
 			{
 				pCamera->GetID(pCameraID);
 				pCameraID_Global = pCameraID;
-				apiController.Camera_default_config(pCamera);
-
-				flag_cameraID_selected = true;				
+				apiController.Camera_default_config(pCamera); // open cam and config
+				flag_cameraID_selected = true;
 				flag_camera_connected = true;
 				flag_camera_init = false;
-
 			}
-			else { flag_camera_connected = false; 
-			flag_camera_init = false;
+			else {
+				flag_camera_connected = false;
+				flag_camera_init = false;
 			}
 		}
+		if (flag_cameraID_selected == false && flag_camera_init == false && flag_camera_connected == false) {
+			if (VmbErrorSuccess == apiController.Giveme_Avalible_Cameras(pCamera))
+				flag_camera_init = true;
+		}
+		
 	}
 	//getchar();
 
