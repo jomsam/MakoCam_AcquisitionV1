@@ -20,10 +20,17 @@ unsigned t0, t1;
 
 //Flags
 std::string  pCameraID_Global;
-bool flag_camera_init = false;		//Flag, indica que la cámara puede ser inicializada
-bool flag_camera_connected = false;
-bool flag_cameraID_selected = false;
-bool flag_camera_close = false;
+
+//			FLAGS DESCRIPTION
+//flag_camera_init			Se actica cuando una cámara ha sido conectada o hay disponibilidad de enlazar una que ya está en el bus.
+//flag_camera_connected		Cámara conectada al bus 
+//flag_cameraID_selected	Indica si una ID Camera ya ha sido seleccionada
+//flag_camera_close			Indica que puede cerrar la comunicación de cámara si se ha desconectado
+
+bool flag_camera_init = false;		
+bool flag_camera_connected = false; 
+bool flag_cameraID_selected = false;	
+bool flag_camera_close = false;			
 //bool flag_init_camera_again = false;
 
 
@@ -214,8 +221,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		else flag_cameraID_selected = false;
 		
-		flag_camera_init = false;
-		flag_camera_connected = true;
+		flag_camera_init		= false;
+		flag_camera_connected	= true;
 	}
 	else {
 		flag_camera_init = false;
@@ -223,7 +230,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 
-	//getchar();
 #pragma region  Registro de Eventos
 	//Register Camera List Observer
 
@@ -254,10 +260,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	int contador = 0;
 
 
-
-	while (1) {
+	while (1) 
+	{
 		if (flag_camera_connected && !flag_camera_init) {
-
 
 			cout << "Waiting Trigger \n" << endl;
 			// wait until Line2 set 1
@@ -267,7 +272,7 @@ int _tmain(int argc, _TCHAR* argv[])
 				Feature->GetValue(status_line_2);
 				cout << endl << contador << " " << apiController.ErrorCodeToMessage(err) <<endl;
 				contador++;
-				Sleep(100);// temporal, quitarlo
+				//Sleep(100);// temporal, quitarlo
 				//if (status_line_2) break;
 			} 
 			//wait until Line2 set 0
@@ -425,8 +430,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 		
 	}
-	//getchar();
-
+	
 	apiController.ShutDown();
 
 	return 0;
